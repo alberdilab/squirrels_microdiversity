@@ -11,13 +11,15 @@ wget $fasta
 module load {params.samtools_module}
 mkdir filtered
 mkdir filtered/EHA02405_bin.30
-samtools index mapping/PRB0009_EHI00142_DMB0046.bam
 
-samtools view -F4 -h mapping/PRB0009_EHI00142_DMB0046.bam | grep 'EHA02405_bin.30' | samtools sort -o filtered/EHA02405_bin.30/PRB0009_EHI00142_DMB0046.bam
-samtools index filtered/EHA02405_bin.30/PRB0009_EHI00142_DMB0046.bam
+samtools index mapping/PRB0141_EHI01511_DMB0046.bam
+samtools idxstats mapping/PRB0141_EHI01511_DMB0046.bam | cut -f1 | grep '^EHA02405_bin\.30\^' > mapping/PRB0141_EHI01511_DMB0046.txt
+samtools view -F4 -h mapping/PRB0141_EHI01511_DMB0046.bam $(cat mapping/PRB0141_EHI01511_DMB0046.txt) | samtools sort -o filtered/EHA02405_bin.30/PRB0141_EHI01511_DMB0046.bam
+samtools index filtered/EHA02405_bin.30/PRB0141_EHI01511_DMB0046.bam
 
 mkdir lorikeet
 mkdir lorikeet/EHA02405_bin.30
-lorikeet call -r genomes/EHA02405_bin.30.fna -b filtered/EHA02405_bin.30 -o lorikeet/EHA02405_bin.30
+conda activate lorikeet
+lorikeet call -r genomes/EHA02405_bin.30.fa -b filtered/EHA02405_bin.30/*bam -o lorikeet/EHA02405_bin.30
 
 ```
