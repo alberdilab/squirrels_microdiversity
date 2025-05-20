@@ -22,4 +22,6 @@ mkdir lorikeet/EHA02405_bin.30
 conda activate lorikeet
 lorikeet call -r genomes/EHA02405_bin.30.fa -b filtered/EHA02405_bin.30/*bam -o lorikeet/EHA02405_bin.30
 
+conda activate lorikeet
+snakemake --workflow-profile .
 ```
